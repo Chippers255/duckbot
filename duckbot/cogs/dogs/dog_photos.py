@@ -1,6 +1,7 @@
 import io
 import json
 import urllib
+
 import discord
 import numpy
 import PIL.Image
@@ -9,15 +10,15 @@ from discord.ext import commands
 
 
 def deprocess(img):
-    img = 255*(img + 1.0)/2.0
+    img = 255 * (img + 1.0) / 2.0
     return tensorflow.cast(img, tensorflow.uint8)
 
 
 class DeepDream(tensorflow.Module):
     def __init__(self):
-        base_model = tensorflow.keras.applications.InceptionV3(include_top=False, weights='imagenet')
+        base_model = tensorflow.keras.applications.InceptionV3(include_top=False, weights="imagenet")
         # Maximize the activations of these layers
-        names = ['mixed3', 'mixed5']
+        names = ["mixed3", "mixed5"]
         layers = [base_model.get_layer(name).output for name in names]
 
         # Create the feature extraction model
@@ -38,9 +39,10 @@ class DeepDream(tensorflow.Module):
 
     @tensorflow.function(
         input_signature=(
-            tensorflow.TensorSpec(shape=[None,None,3], dtype=tensorflow.float32),
+            tensorflow.TensorSpec(shape=[None, None, 3], dtype=tensorflow.float32),
             tensorflow.TensorSpec(shape=[], dtype=tensorflow.int32),
-            tensorflow.TensorSpec(shape=[], dtype=tensorflow.float32),)
+            tensorflow.TensorSpec(shape=[], dtype=tensorflow.float32),
+        )
     )
     def __call__(self, img, steps, step_size):
         print("Tracing")
@@ -56,11 +58,11 @@ class DeepDream(tensorflow.Module):
             gradients = tape.gradient(loss, img)
 
             # Normalize the gradients.
-            gradients /= tensorflow.math.reduce_std(gradients) + 1e-8 
-            
+            gradients /= tensorflow.math.reduce_std(gradients) + 1e-8
+
             # In gradient ascent, the "loss" is maximized so that the input image increasingly "excites" the layers.
             # You can update the image by directly adding the gradients (because they're the same shape!)
-            img = img + gradients*step_size
+            img = img + gradients * step_size
             img = tensorflow.clip_by_value(img, -1, 1)
 
         return loss, img
@@ -87,7 +89,7 @@ class DogPhotos(commands.Cog):
         steps_remaining = 100
         step = 0
         while steps_remaining:
-            if steps_remaining>100:
+            if steps_remaining > 100:
                 run_steps = tensorflow.constant(100)
             else:
                 run_steps = tensorflow.constant(steps_remaining)
@@ -95,7 +97,7 @@ class DogPhotos(commands.Cog):
             step += run_steps
 
             loss, img = deepdream(img, run_steps, tensorflow.constant(step_size))
-            
+
             result = deprocess(img)
             result = PIL.Image.fromarray(numpy.array(result))
             result.save("dreamy_dog.png", format="PNG")
