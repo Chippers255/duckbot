@@ -47,7 +47,7 @@ if __name__ == "__main__":
             "beautifulsoup4",
             "pytz",
             "timezonefinder>=5.2,<6",
-            "holidays>=0.11,<0.12",
+            "holidays>=0.11,<0.13",
             "pyowm>=3.2,<4",  # openweather
             "psycopg2",
             "sqlalchemy>=1.4,<2",
