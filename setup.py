@@ -90,7 +90,7 @@ if __name__ == "__main__":
                 "aws-cdk.core==1.154.0",
                 "aws-cdk.aws-ec2==1.154.0",
                 "aws-cdk.aws-ecs==1.154.0",
-                "aws-cdk.aws-autoscaling==1.154.0",
+                "aws-cdk.aws-autoscaling==1.166.1",
                 "aws-cdk.aws-efs==1.154.0",
                 "aws-cdk.aws-iam==1.154.0",
                 "aws-cdk.aws-logs==1.154.0",
