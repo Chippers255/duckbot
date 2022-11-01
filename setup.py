@@ -68,7 +68,7 @@ if __name__ == "__main__":
             "dev": [
                 "pytest==7.1.2",
                 "pytest-asyncio==0.18.3",
-                "pytest-xdist[psutil]==2.5.0",
+                "pytest-xdist[psutil]==3.0.2",
                 "flake8==4.0.1",
                 "black==22.3.0",
                 "flake8-black==0.3.2",
