@@ -88,7 +88,7 @@ if __name__ == "__main__":
             ],
             "cdk": [
                 "aws-cdk.core==1.181.1",
-                "aws-cdk.aws-ec2==1.181.1",
+                "aws-cdk.aws-ec2==1.194.0",
                 "aws-cdk.aws-ecs==1.181.1",
                 "aws-cdk.aws-autoscaling==1.181.1",
                 "aws-cdk.aws-efs==1.181.1",
